@@ -17,7 +17,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.IOException;
 
 import java.security.GeneralSecurityException;
 
@@ -27,14 +26,12 @@ import java.util.List;
 import java.util.Properties;
 
 public class YouTubeCommentCrawlerWithKafka {
-    // You need to set this value for your code to compile.
-    // For example: ... DEVELOPER_KEY = "YOUR ACTUAL KEY";
     private static final String DEVELOPER_KEY = "AIzaSyAMai6p0E_vfA3MsHOXgnmFL7h8k1TMDN0";
     private static final String APPLICATION_NAME = "ytbCommentCrawler";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-    private static final String KAFKA_BOOTSTRAP_SERVERS = "YOUR_KAFKA_BROKER"; //fill in
-    private static final String KAFKA_TOPIC = "YOUR_TOPIC_NAME"; // fill in
+    private static final String KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"; //fill in
+    private static final String KAFKA_TOPIC = "youtube_comments"; // fill in
  
 	private static final String URLfile = "URLs.txt"; 
 /**
@@ -86,6 +83,7 @@ public class YouTubeCommentCrawlerWithKafka {
             		// Iterate through the comment threads and send comments to the Kafka topic
 	            	for (CommentThread commentThread : response.getItems()) {
 	                	String commentText = commentThread.getSnippet().getTopLevelComment().getSnippet().getTextDisplay();
+						System.out.println(commentText);
 	                	ProducerRecord<String, String> record = new ProducerRecord<>(KAFKA_TOPIC, commentText);
 	                	producer.send(record);
 	            	}
@@ -130,4 +128,3 @@ public class YouTubeCommentCrawlerWithKafka {
         return videoId;
     }
 }
-

@@ -7,8 +7,8 @@ analyzer = SentimentIntensityAnalyzer()
 
 # Configure Kafka consumer
 consumer = KafkaConsumer(
-    'YOUR_KAFKA_TOPIC',  # fill in
-    bootstrap_servers='YOUR_KAFKA_BROKER',  #fill in
+    'youtube_comment',  # fill in
+    bootstrap_servers='localhost:9092',  #fill in
     value_deserializer=lambda x: x.decode('utf-8'),
     auto_offset_reset='earliest'
 )
@@ -40,4 +40,3 @@ try:
 
 except Exception as e:
     print(f"Error:{e}")
-
